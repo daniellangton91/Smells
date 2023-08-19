@@ -10,7 +10,7 @@
 
         while (playOn)
         {
-            string goal = makeGoal();
+            string goal = GenerateRandomNumber();
 
 
             Console.WriteLine("New game:\n");
@@ -19,20 +19,20 @@
             string guess = Console.ReadLine();
 
             int nGuess = 1;
-            string bbcc = checkBC(goal, guess);
+            string bbcc = CheckPlayerGuess(goal, guess);
             Console.WriteLine(bbcc + "\n");
             while (bbcc != "BBBB,")
             {
                 nGuess++;
                 guess = Console.ReadLine();
                 Console.WriteLine(guess + "\n");
-                bbcc = checkBC(goal, guess);
+                bbcc = CheckPlayerGuess(goal, guess);
                 Console.WriteLine(bbcc + "\n");
             }
             StreamWriter output = new StreamWriter("result.txt", append: true);
             output.WriteLine(name + "#&#" + nGuess);
             output.Close();
-            showTopList();
+            HandleTopList();
             Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
             string answer = Console.ReadLine();
             if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
@@ -41,7 +41,7 @@
             }
         }
     }
-    static string makeGoal()
+    static string GenerateRandomNumber()
     {
         Random randomGenerator = new Random();
         string goal = "";
@@ -59,7 +59,7 @@
         return goal;
     }
 
-    static string checkBC(string goal, string guess)
+    static string CheckPlayerGuess(string goal, string guess)
     {
         int cows = 0, bulls = 0;
         guess += "    ";     // if player entered less than 4 chars
@@ -84,7 +84,7 @@
     }
 
 
-    static void showTopList()
+    static void HandleTopList()
     {
         StreamReader input = new StreamReader("result.txt");
         List<PlayerData> results = new List<PlayerData>();
